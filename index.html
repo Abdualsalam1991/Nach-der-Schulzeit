@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nach der Schulzeit</title>
+<style>
+:root{--bg:#f6f8fb;--card:#fff;--ink:#1d2733;--mute:#5a6776;--line:#d5dce5;--acc:#1f5f8b;--der:#1e78c8;--das:#1f9d55;--die:#d63b3b;--pl:#444b55;--ok:#dff3e6;--okb:#1f9d55;--bad:#fbe1e1;--badb:#d63b3b;--pr:#ffe3a3;--ar:#bfe0fb;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10161d;--card:#18212b;--ink:#e8edf3;--mute:#9aa8b8;--line:#2d3a48;--acc:#7cb9e8;--der:#5aa9ef;--das:#4cc582;--die:#f27a7a;--pl:#b6bec9;--ok:#173a27;--bad:#4a2020;--pr:#6b5316;--ar:#1d4566;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Atkinson Hyperlegible","Segoe UI",Helvetica,Arial,sans-serif}
+main{max-width:760px;margin:0 auto;padding:20px 16px 40px}
+header{padding:18px 0 8px}
+h1{font-size:2rem;margin:0;line-height:1.2}
+header p{margin:4px 0 0;color:var(--mute)}
+section{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:18px 0}
+h2{font-size:1.15rem;margin:0 0 4px;display:flex;gap:10px;align-items:baseline}
+h2 .n{background:var(--acc);color:var(--bg);border-radius:50%;min-width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:.95rem}
+.hint{color:var(--mute);margin:0 0 12px}
+button{font:inherit;border:1px solid var(--acc);background:var(--acc);color:var(--bg);border-radius:8px;padding:7px 14px;cursor:pointer}
+button.alt{background:transparent;color:var(--acc)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+input.gap{font:inherit;border:0;border-bottom:2px solid var(--acc);background:transparent;color:var(--ink);padding:0 4px;text-align:center;min-width:3em}
+.gaps{line-height:2.3}
+input.gap.ok,input.fm.ok,select.ok{background:var(--ok);border-color:var(--okb)}
+input.gap.bad,input.fm.bad,select.bad{background:var(--bad);border-color:var(--badb)}
+.txt p{margin:.6em 0;line-height:2}
+.w{cursor:pointer;border-radius:5px;padding:1px 2px}
+.w.P{background:var(--pr)}.w.A{background:var(--ar)}
+.w.ok{outline:2px solid var(--okb)}.w.bad{outline:2px solid var(--badb)}.w.miss{outline:2px dashed var(--badb)}
+.mode button.on{box-shadow:0 0 0 3px var(--ink)}
+.mP{background:var(--pr);color:var(--ink);border-color:var(--pr)}.mA{background:var(--ar);color:var(--ink);border-color:var(--ar)}
+.msg{font-weight:600;margin-top:8px;min-height:1.5em}
+.sortrow{display:flex;gap:10px;align-items:center;margin:6px 0;flex-wrap:wrap}
+.sortrow span{flex:1 1 220px}
+select{font:inherit;padding:5px 8px;border:2px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+.kz{display:inline-block;border-left:4px solid var(--acc);padding:4px 14px;margin:6px 0 14px;background:var(--bg)}
+.kz div{white-space:nowrap}
+input.fm{font:inherit;width:5em;border:0;border-bottom:2px solid var(--acc);background:transparent;color:var(--ink);text-align:center}
+ol.s{padding-left:1.3em}ol.s li{margin:8px 0}
+footer{text-align:right;color:var(--mute);border-top:1px solid var(--line);padding-top:12px;margin-top:24px}
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>Nach der Schulzeit</h1>
+<p>Dativ: Präpositionen, Artikel und Kurzformen</p>
+</header>
+
+<section id="t1">
+<h2><span class="n">1</span>Hören und ergänzen</h2>
+<p class="hint">Klicken Sie auf „Text hören“. Ergänzen Sie dann die Lücken im Text.</p>
+<div class="row"><button id="play">▶ Text hören</button><button class="alt" id="stop">■ Stopp</button></div>
+<p class="hint" id="noaudio" hidden>Dieses Gerät kann den Text nicht vorlesen.</p>
+<div class="gaps" id="gaps"></div>
+<div class="row"><button id="g-check">Prüfen</button><button class="alt" id="g-show">Lösung zeigen</button></div>
+<div class="msg" id="g-msg"></div>
+</section>
+
+<section id="t2">
+<h2><span class="n">2</span>Präpositionen und Artikel markieren</h2>
+<p class="hint">Wählen Sie eine Farbe und klicken Sie auf die Wörter. Markieren Sie alle Präpositionen und die Artikel im Dativ (zum Beispiel <i>dem, einer, meinen</i>). Ein zweiter Klick löscht die Markierung.</p>
+<div class="row mode"><button class="mP on" id="mP">Präposition</button><button class="mA" id="mA">Artikel im Dativ</button></div>
+<div class="txt" id="txt"></div>
+<div class="row"><button id="m-check">Prüfen</button><button class="alt" id="m-reset">Zurücksetzen</button></div>
+<div class="msg" id="m-msg"></div>
+</section>
+
+<section id="t3">
+<h2><span class="n">3</span>Artikel nach Genus sortieren</h2>
+<p class="hint">Welcher Artikel steht im Nominativ? Wählen Sie für jedes Nomen: <b style="color:var(--der)">der</b>, <b style="color:var(--das)">das</b>, <b style="color:var(--die)">die</b> oder <b style="color:var(--pl)">die (Plural)</b>.</p>
+<div id="sort"></div>
+<div class="row"><button id="s-check">Prüfen</button></div>
+<div class="msg" id="s-msg"></div>
+</section>
+
+<section id="t4">
+<h2><span class="n">4</span>Kurzformen ergänzen</h2>
+<div class="kz"><div>an + dem → am</div><div>bei + dem → beim</div><div>in + dem → im</div><div>von + dem → vom</div><div>zu + dem → zum</div><div>zu + der → zur</div></div>
+<p class="hint">Ergänzen Sie die Kurzform.</p>
+<ol class="s" id="fm"></ol>
+<div class="row"><button id="f-check">Prüfen</button></div>
+<div class="msg" id="f-msg"></div>
+</section>
+
+<footer>Kursleitung: A. Al-Huda</footer>
+</main>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+function norm(s){return s.trim().toLowerCase().replace(/\s+/g,' ')}
+
+/* ---------- Text (mit Markierungen: [P] Präposition, [A] Artikel im Dativ) ---------- */
+var PARAS=[
+"Ich bin bald [P]mit [A]meiner Ausbildung fertig! [P]Nach [A]dem Abitur habe ich mich [P]für eine Ausbildung [P]zum Erzieher entschieden. Zuerst habe ich zwei Jahre [P]an [A]einer Berufsfachschule gelernt. Jetzt arbeite ich [P]seit [A]einem Monat [P]in [A]einem Kindergarten und mache mein Berufspraktikum. Die Arbeit hier gefällt mir super. [P]Mit [A]den Kolleginnen und Kollegen verstehe ich mich sehr gut und die Kinder [P]in [A]meiner Gruppe sind lustig und nett.",
+"Leider habe ich [P]am Nachmittag keine Zeit mehr [P]für meine Hobbys. Nur [P]am Wochenende spiele ich Basketball [P]mit [A]meinen Freunden oder wir sehen ein Spiel [P]von [A]unserem Lieblingsteam. Ich wohne noch [P]zu Hause. Leider verdiene ich auch jetzt wenig und kann noch keine Miete [P]für eine Wohnung bezahlen."
+];
+var HEAD="Hallo Chiara, wie geht es dir? Wir hatten so lange keinen Kontakt – was machst du denn jetzt? ";
+var TAIL=" Ruf mich doch bald an, dann können wir etwas zusammen machen. LG Karim";
+var FULL=HEAD+PARAS.join(" ").replace(/\[[PA]\]/g,"")+TAIL;
+
+/* ---------- Aufgabe 1 ---------- */
+var GAPTXT=["Ich bin bald {0} fertig! {1} habe ich mich {2} zum Erzieher entschieden. Zuerst habe ich zwei Jahre {3} gelernt. Jetzt arbeite ich {4} in einem Kindergarten und mache mein Berufspraktikum. Die Arbeit hier gefällt mir super. {5} verstehe ich mich sehr gut und die Kinder {6} sind lustig und nett.",
+"Leider habe ich am Nachmittag keine Zeit mehr {7}. Nur am Wochenende spiele ich Basketball {8} oder wir sehen ein Spiel von unserem Lieblingsteam. Ich wohne noch zu Hause. Leider verdiene ich auch jetzt wenig und kann noch keine Miete {9} bezahlen."];
+var ANS=["mit meiner Ausbildung","Nach dem Abitur","für eine Ausbildung","an einer Berufsfachschule","seit einem Monat","Mit den Kolleginnen und Kollegen","in meiner Gruppe","für meine Hobbys","mit meinen Freunden","für eine Wohnung"];
+(function(){
+  var h='<p>Hallo Chiara,</p><p>wie geht es dir? Wir hatten so lange keinen Kontakt – was machst du denn jetzt?</p>';
+  GAPTXT.forEach(function(p){
+    h+='<p>'+p.replace(/\{(\d+)\}/g,function(m,i){return '<input class="gap" data-i="'+i+'" size="'+Math.max(8,ANS[i].length)+'" aria-label="Lücke '+(+i+1)+'" autocomplete="off" autocapitalize="off" spellcheck="false">'})+'</p>';
+  });
+  h+='<p>Ruf mich doch bald an, dann können wir etwas zusammen machen.</p><p>LG<br>Karim</p>';
+  $('gaps').innerHTML=h;
+})();
+var synth=window.speechSynthesis;
+if(!synth||!window.SpeechSynthesisUtterance){$('noaudio').hidden=false;$('play').disabled=true}
+$('play').onclick=function(){
+  try{synth.cancel();var u=new SpeechSynthesisUtterance(FULL);u.lang='de-DE';u.rate=0.85;
+  var v=synth.getVoices().filter(function(x){return /^de/i.test(x.lang)})[0];if(v)u.voice=v;synth.speak(u)}catch(e){$('noaudio').hidden=false}
+};
+$('stop').onclick=function(){try{synth.cancel()}catch(e){}};
+function gapIn(){return Array.prototype.slice.call(document.querySelectorAll('input.gap'))}
+$('g-check').onclick=function(){
+  var n=0;gapIn().forEach(function(e){var ok=norm(e.value)===norm(ANS[e.dataset.i]);e.className='gap '+(ok?'ok':'bad');if(ok)n++});
+  $('g-msg').textContent=n+' von '+ANS.length+' richtig.'+(n==ANS.length?' Sehr gut!':' Hören Sie noch einmal und prüfen Sie die roten Lücken.');
+};
+$('g-show').onclick=function(){gapIn().forEach(function(e){e.value=ANS[e.dataset.i];e.className='gap ok'})};
+
+/* ---------- Aufgabe 2 ---------- */
+var mode='P';
+$('mP').onclick=function(){mode='P';$('mP').classList.add('on');$('mA').classList.remove('on')};
+$('mA').onclick=function(){mode='A';$('mA').classList.add('on');$('mP').classList.remove('on')};
+function buildTxt(){
+  var h='<p>Hallo Chiara,</p><p>wie geht es dir? Wir hatten so lange keinen Kontakt – was machst du denn jetzt?</p>';
+  PARAS.forEach(function(p){
+    h+='<p>'+p.split(' ').map(function(t){var m=t.match(/^\[([PA])\](.*)$/);
+      return m?'<span class="w" tabindex="0" role="button" data-t="'+m[1]+'">'+m[2]+'</span>':'<span class="w" tabindex="0" role="button" data-t="">'+t+'</span>'}).join(' ')+'</p>';
+  });
+  h+='<p>Ruf mich doch bald an, dann können wir etwas zusammen machen.</p><p>LG<br>Karim</p>';
+  $('txt').innerHTML=h;$('m-msg').textContent='';
+}
+buildTxt();
+function toggle(e){var w=e.target.closest('.w');if(!w)return;
+  w.classList.remove('ok','bad','miss');
+  if(w.dataset.m===mode){w.dataset.m='';w.classList.remove('P','A')}
+  else{w.dataset.m=mode;w.classList.remove('P','A');w.classList.add(mode)}}
+$('txt').addEventListener('click',toggle);
+$('txt').addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggle(e)}});
+$('m-check').onclick=function(){
+  var tot=0,ok=0,bad=0;
+  document.querySelectorAll('.w').forEach(function(w){
+    w.classList.remove('ok','bad','miss');var t=w.dataset.t,m=w.dataset.m||'';
+    if(t)tot++;
+    if(t&&m===t){ok++;w.classList.add('ok')}
+    else if(m&&m!==t){bad++;w.classList.add('bad')}
+    else if(t&&!m){w.classList.add('miss')}
+  });
+  $('m-msg').textContent=ok+' von '+tot+' richtig markiert, '+bad+' falsch markiert, '+(tot-ok)+' fehlen noch (gestrichelt).';
+};
+$('m-reset').onclick=buildTxt;
+
+/* ---------- Aufgabe 3 ---------- */
+var SORT=[["zum Erzieher","der"],["einem Monat","der"],["einem Kindergarten","der"],["am Nachmittag","der"],
+["dem Abitur","das"],["am Wochenende","das"],["unserem Lieblingsteam","das"],
+["meiner Ausbildung","die"],["an einer Berufsfachschule","die"],["meiner Gruppe","die"],
+["den Kollegen und Kolleginnen","pl"],["meinen Freunden","pl"]];
+var order=[7,0,10,4,2,8,11,5,1,9,6,3];
+$('sort').innerHTML=order.map(function(i,k){return '<div class="sortrow"><span>'+SORT[i][0]+'</span><select data-i="'+i+'" aria-label="Artikel für '+SORT[i][0]+'"><option value="">–</option><option value="der">der</option><option value="das">das</option><option value="die">die</option><option value="pl">die (Plural)</option></select></div>'}).join('');
+$('s-check').onclick=function(){
+  var n=0,els=document.querySelectorAll('#sort select');
+  els.forEach(function(s){var ok=s.value===SORT[s.dataset.i][1];s.className=ok?'ok':'bad';if(ok)n++});
+  $('s-msg').textContent=n+' von '+els.length+' richtig.';
+};
+
+/* ---------- Aufgabe 4 ---------- */
+var FM=[["Nach dem Abitur habe ich mich für eine Ausbildung","Erzieher entschieden. (zu + dem)","zum"],
+["Nur","Wochenende spiele ich Basketball. (an + dem)","am"],
+["Ich arbeite","Kindergarten. (in + dem)","im"],
+["Karim geht","Schule. (zu + der)","zur"],
+["Er kommt","Training. (von + dem)","vom"],
+["Sie wohnt","Onkel. (bei + dem)","beim"]];
+$('fm').innerHTML=FM.map(function(f,i){return '<li>'+f[0]+' <input class="fm" data-i="'+i+'" aria-label="Lücke '+(i+1)+'" autocomplete="off" autocapitalize="off" spellcheck="false"> '+f[1]+'</li>'}).join('');
+$('f-check').onclick=function(){
+  var n=0,els=document.querySelectorAll('input.fm');
+  els.forEach(function(e){var ok=norm(e.value)===FM[e.dataset.i][2];e.className='fm '+(ok?'ok':'bad');if(ok)n++});
+  $('f-msg').textContent=n+' von '+els.length+' richtig.';
+};
+</script>
+</body>
+</html>
